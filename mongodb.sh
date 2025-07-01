@@ -30,24 +30,24 @@ fi     #it was used to close the if statement
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo &>> LOGFILE
 
-validate $? "copyied mongodb repo"
+VALIDATE $? "copyied mongodb repo"
 
 yum install mongodb-org -y &>> LOGFILE
 
-validate $? "installing mongodb"
+VALIDATE $? "installing mongodb"
 
 systemctl enable mongod &>> LOGFILE
 
-validate $? "enabling mongodb"
+VALIDATE $? "enabling mongodb"
 
 systemctl start mongod &>> LOGFILE
 
-validate $? "start mongodb"
+VALIDATE $? "start mongodb"
 
 sed -i 's/127.0.0.0/0.0.0.0/g' /etc/mongod.conf &>> LOGFILE
 
-validate $? "remote access"
+VALIDATE $? "remote access"
 
 systemctl restart mongod &>> LOGFILE
 
-validate $? "restart mongodb"
+VALIDATE $? "restart mongodb"
