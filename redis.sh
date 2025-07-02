@@ -30,16 +30,15 @@ else
     echo  -e " $G you are root user $N"
 fi     #it was used to close the if statement
 
-#dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y &>>LOGFILE
 yum install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y &>>$LOGFILE
 
 VALIDATE $? "installing remi repo"
 
-dnf module enable redis:remi-6.2 -y &>>LOGFILE
+yum module enable redis:remi-6.2 -y &>>LOGFILE
 
 VALIDATE $? "installing remi:6.2"
 
-dnf install redis -y &>>LOGFILE
+yum install redis -y &>>LOGFILE
 
 VALIDATE $? "installing redis"
 
