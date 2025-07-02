@@ -100,7 +100,8 @@ dnf install mongodb-org-shell -y &>>LOGFILE
 
 VALIDATE $? "installing mongo client"
 
-mongo --host mongodb.daws5252.xyz </app/schema/catalogue.js &>>LOGFILE
+#mongo --host mongodb.daws5252.xyz </app/schema/catalogue.js &>>LOGFILE
+mongo --host mongodb.daws5252.xyz </app/schema/catalogue.js &>>$LOGFILE
 
 VALIDATE $? "loading  catalougue data to mongodb"
 
