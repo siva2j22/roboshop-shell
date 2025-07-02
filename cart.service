@@ -1,0 +1,12 @@
+[Unit]
+Description = Cart Service
+[Service]
+User=roboshop
+Environment=REDIS_HOST=redis.daws5252.xyz
+Environment=CATALOGUE_HOST=catalogue.daws5252.xyz
+Environment=CATALOGUE_PORT=8080
+ExecStart=/bin/node /app/server.js
+SyslogIdentifier=cart
+
+[Install]
+WantedBy=multi-user.target
