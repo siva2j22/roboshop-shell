@@ -1,35 +1,53 @@
 #!/bin/bash
 
-ID=$(id -u)
+DATE=$(date +%F)
+LOGSDIR=/tmp
+# /home/centos/shellscript-logs/script-name-date.log
+SCRIPT_NAME=$0
+LOGFILE=$LOGSDIR/$0-$DATE.log
+USERID=$(id -u)
 R="\e[31m"
 G="\e[32m"
-G="\e[33m"
 N="\e[0m"
+Y="\e[33m"
 
-TIMESTAMP=$(date +%F-%H-%M-%S)
-LOGFILE="/tmp/$0-$TIMESTAMP.log"
-#exec &>$LOGFILE
-
-echo "script start time $TIMESTAMP"  &>>LOGFILE
+if [ $USERID -ne 0 ];
+then
+    echo -e "$R ERROR:: Please run this script with root access $N"
+    exit 1
+fi
 
 VALIDATE(){
-    if [ $? -ne 0 ]
+    if [ $1 -ne 0 ];
     then
-        echo -e "$2 .. $R FAILED $N"
+        echo -e "$2 ... $R FAILURE $N"
         exit 1
     else
-        echo -e "$2 .. $G success $N"
+        echo -e "$2 ... $G SUCCESS $N"
     fi
 }
 
-if [ $ID -ne 0 ]
-then
-    echo -e " $R EEROR: PLEASE RUN THIS script with root access $N"
-    exit 52 # it will stop here
-else
-    echo  -e " $G you are root user $N"
-fi     #it was used to close the if statement
 
-dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y &>>LOGFILE
+yum install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y &>>$LOGFILE
 
-VALIDATE $? "install software"
+VALIDATE $? "Installing Redis repo"
+
+yum module enable redis:remi-6.2 -y &>>$LOGFILE
+
+VALIDATE $? "Enabling Redis 6.2"
+
+yum install redis -y &>>$LOGFILE
+
+VALIDATE $? "Installing Redis 6.2"
+
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis.conf /etc/redis/redis.conf &>>$LOGFILE
+
+VALIDATE $? "Allowing Remote connections to redis"
+
+systemctl enable redis &>>$LOGFILE
+
+VALIDATE $? "Enabling Redis"
+
+systemctl start redis &>>$LOGFILE
+
+VALIDATE $? "Starting Redis"
