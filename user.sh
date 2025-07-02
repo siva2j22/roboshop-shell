@@ -55,7 +55,7 @@ mkdir -p /app &>>LOGFILE
 
 VALIDATE $? "creating app directory"
 
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>>LOGFILE
+curl -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip &>>LOGFILE
 
 VALIDATE $? "copying the file from remote"
 
@@ -63,9 +63,9 @@ cd /app &>>LOGFILE
 
 VALIDATE $? "into app directory"
 
-unzip -o /tmp/catalogue.zip &>>LOGFILE
+unzip -o /tmp/user.zip &>>LOGFILE
 
-VALIDATE $? "unzip catalogue the file"
+VALIDATE $? "unzip user the file"
 
 cd /app &>>LOGFILE
 
@@ -75,22 +75,21 @@ npm install &>>LOGFILE
 
 VALIDATE $? "installing dependecies"
 
-#use obslute path because catalougue exist here
-cp /home/centos/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>>LOGFILE
+cp /home/centos/roboshop-shell/user.service /etc/systemd/system/user.service &>>LOGFILE
 
-VALIDATE $? "copying from remote repo"
+VALIDATE $? "into app directory"
 
 systemctl daemon-reload &>>LOGFILE
 
-VALIDATE $? "reload daemon service"
+VALIDATE $? "user daemon reload"
 
-systemctl enable catalogue &>>LOGFILE
+systemctl enable user &>>LOGFILE
 
-VALIDATE $? "enable catalouge service"
+VALIDATE $? "into app directory"
 
-systemctl start catalogue &>>LOGFILE
+systemctl start user &>>LOGFILE
 
-VALIDATE $? "starting catalogue service"
+VALIDATE $? "starting user"
 
 cp /home/centos/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo &>>LOGFILE
 
@@ -101,9 +100,6 @@ dnf install mongodb-org-shell -y &>>LOGFILE
 VALIDATE $? "installing mongo client"
 
 #mongo --host mongodb.daws5252.xyz </app/schema/catalogue.js &>>LOGFILE
-mongo --host mongodb.daws5252.xyz </app/schema/catalogue.js &>>$LOGFILE
+mongo --host mongodb.daws5252.xyz </app/schema/user.js &>>$LOGFILE
 
-VALIDATE $? "loading  catalougue data to mongodb"
-
-
-
+VALIDATE $? "loading  user data to mongodb"
