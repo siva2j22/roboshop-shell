@@ -10,7 +10,7 @@ MONGODB_HOST=mongodb.daws5252.xyz
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
-echo "script start time $TIMESTAMP"  &>>LOGFILE
+echo "script start time $TIMESTAMP"  &>> LOGFILE
 
 VALIDATE(){
     if [ $? -ne 0 ]
@@ -42,11 +42,16 @@ dnf install nodejs -y &>> LOGFILE
 
 VALIDATE $? "installing nodejs"
 
-useradd roboshop &>> LOGFILE
+id roboshop
+if [ $? -ne 0]
+then 
+    useradd roboshop &>> LOGFILE
+    VALIDATE $? "useradding for roboshop"
+else
+    echo "user already exists"
+fi
 
-VALIDATE $? "useradding for roboshop"
-
-mkdir /app &>> LOGFILE
+mkdir -p /app &>> LOGFILE
 
 VALIDATE $? "creating app directory"
 
@@ -58,7 +63,7 @@ cd /app &>> LOGFILE
 
 VALIDATE $? "into app directory"
 
-unzip /tmp/catalogue.zip &>> LOGFILE
+unzip -o /tmp/catalogue.zip &>> LOGFILE
 
 VALIDATE $? "unzip catalogue the file"
 
