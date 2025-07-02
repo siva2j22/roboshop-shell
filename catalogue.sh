@@ -5,7 +5,7 @@ R="\e[31m"
 G="\e[32m"
 G="\e[33m"
 N="\e[0m"
-MONGODB_HOST=mongodb.daws5252.xyz
+#MONGODB_HOST=
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
@@ -100,7 +100,7 @@ dnf install mongodb-org-shell -y &>> LOGFILE
 
 VALIDATE $? "installing mongo repo"
 
-mongo --host  $MONGODB_HOST </app/schema/catalogue.js &>> LOGFILE
+mongo --host mongodb.daws5252.xyz </app/schema/catalogue.js &>>LOGFILE
 
 VALIDATE $? "connecting from catalougue to mongodb"
 
