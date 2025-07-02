@@ -31,9 +31,9 @@ yum install --skip-broken https://rpms.remirepo.net/enterprise/remi-release-8.rp
 
 VALIDATE $? "Installing Redis repo"
 
-yum module enable redis:remi-6.0 -y &>>$LOGFILE
+#yum module enable redis:remi-6.0 -y &>>$LOGFILE
 
-VALIDATE $? "Enabling Redis 6.o"
+#VALIDATE $? "Enabling Redis 6.o"
 
 yum install redis -y &>>$LOGFILE
 
