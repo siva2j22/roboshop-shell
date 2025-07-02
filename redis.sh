@@ -27,9 +27,9 @@ VALIDATE(){
     fi
 }
 
-dnf module enable redis:remi-6.2 -y &>>$LOGFILE
+#dnf module enable redis:remi-6.2 -y &>>$LOGFILE
 
-VALIDATE $? "Enabling Redis 6.2"
+#VALIDATE $? "Enabling Redis 6.2"
 
 dnf install redis -y &>>$LOGFILE
 
