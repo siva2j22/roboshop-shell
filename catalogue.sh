@@ -98,11 +98,11 @@ VALIDATE $? "coping mongo repo"
 
 dnf install mongodb-org-shell -y &>>LOGFILE
 
-VALIDATE $? "installing mongo repo"
+VALIDATE $? "installing mongo client"
 
 mongo --host mongodb.daws5252.xyz </app/schema/catalogue.js &>>LOGFILE
 
-VALIDATE $? "connecting from catalougue to mongodb"
+VALIDATE $? "loading  catalougue data to mongodb"
 
 
 
